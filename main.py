@@ -1,22 +1,18 @@
 def obtener_ganacia(entrenamiento, energia):
     return min(energia, entrenamiento)
 
-def obtener_mejor_del_dia(entrenamientos):
-    mejor = entrenamientos[0]
-    for entrenamiento in entrenamientos:
-        if entrenamiento[0] > mejor[0]:
-            mejor = entrenamiento
-    return mejor
-
 def mayor_ganancia(cant_dias, entrenamientos, energias):
     # el primer día es un caso base
     mejor_caso_dia_ant_a_prev = [obtener_ganacia(entrenamientos[0], energias[0]), 1]
 
-    # el segundo día tambien es un caso base (tal vez no sea necesario)
-    casos_dia_anterior = [
-        [obtener_ganacia(entrenamientos[1], energias[0]), 1],
-        [mejor_caso_dia_ant_a_prev[0] + obtener_ganacia(entrenamientos[1], energias[1]), 2]
-    ]
+    # el segundo día tambien es un caso base
+    casos_dia_anterior = []
+    ganancia_con_descanso = obtener_ganacia(entrenamientos[1], energias[0])
+    ganancia_sin_descanso = mejor_caso_dia_ant_a_prev[0] + obtener_ganacia(entrenamientos[1], energias[1])
+    if ganancia_con_descanso > ganancia_sin_descanso:
+        casos_dia_anterior = [[ganancia_con_descanso, 1], [ganancia_sin_descanso, 2]]
+    else:
+        casos_dia_anterior = [[ganancia_sin_descanso, 2], [ganancia_con_descanso, 1]]
 
     for i in range(2, cant_dias):
         # caso descanse el dia anterior
@@ -29,17 +25,19 @@ def mayor_ganancia(cant_dias, entrenamientos, energias):
         # demas casos
         for caso_previo in casos_dia_anterior:
             ganancia_previa = caso_previo[0]
+            ganancia_nueva = obtener_ganacia(entrenamientos[i], energias[caso_previo[1]]) + ganancia_previa
             dias_consecutivos = caso_previo[1]
-            caso = [
-                    obtener_ganacia(entrenamientos[i], energias[dias_consecutivos]) + ganancia_previa,
-                    dias_consecutivos+1
-                    ]
-            casos_posibles_dia_actual.append(caso)
+            caso = [ganancia_nueva, dias_consecutivos+1]
 
-        mejor_caso_dia_ant_a_prev = obtener_mejor_del_dia(casos_dia_anterior)
+            if ganancia_nueva > casos_posibles_dia_actual[0][0]:
+                casos_posibles_dia_actual.insert(0, caso) # si es mejor que el mejor caso actual, lo inserto al principio
+            else: 
+                casos_posibles_dia_actual.append(caso) # si no, lo inserto al final
+
+        mejor_caso_dia_ant_a_prev = casos_dia_anterior[0]
         casos_dia_anterior = casos_posibles_dia_actual
 
-    return max(casos_dia_anterior)
+    return casos_dia_anterior[0]
 
 
 def parsear_archivo(archivo):
@@ -50,5 +48,5 @@ def parsear_archivo(archivo):
         energias = [int(linea) for linea in lineas[cant_dias+1:]]
         return cant_dias, entrenamientos, energias
     
-(cant_dias, entrenamientos, energias) = parsear_archivo("./test/10.txt")
+(cant_dias, entrenamientos, energias) = parsear_archivo("./test/5000.txt")
 print(mayor_ganancia(len(entrenamientos), entrenamientos, energias)[0])
