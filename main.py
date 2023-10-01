@@ -23,6 +23,7 @@ def mayor_ganancia(energia_inicial, entrenamientos):
             # Nada que hacer, el mejor caso es su inicial
             continue
         if i == 1:
+            # El segundo entrenamiento no se suma a nada anterior
             c1 = ganancias[i]
             g = obtener_ganancia(ganancias[i-1][1], entrenamientos[i])
             c2 = (ganancias[i-1][0]+g[0], g[1])
