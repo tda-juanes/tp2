@@ -1,43 +1,94 @@
-energia_inicial = 5
-entrenamientos = [1,2,3,4,5,6]
+# El formato de los sets de datos es: 
+# En la primera línea el valor de la cantidad de días a considerar (n)
+# En las siguientes n líneas, las ganancias de dichos días (nuestros e_i).
+# En las siguientes n líneas, la energía con la que se cuenta al día 1, 2, 3, ..., n de estar entrenando sin haber descansando previamente (nuestros s_i).
+# 
+# Ejemplo 3.txt:
+# 3  -> cantidad de días
+# 1  -> ganancia día 1
+# 5  -> ganancia día 2
+# 4  -> ganancia día 3 
+# 10 -> energía día 1 sin haber descansado previamente (es nuestro s1)
+# 2  -> energía día 2 sin haber descansado previamente
+# 2  -> energía día 2 sin haber descansado previamente
+#
+# Ganancia maxima: 7
+# Plan de entrenamiento: Descanso, Entreno, Entreno
 
-# En el caso planteado el mejor entrenamiento posible es:
-# hago 1       ( 1, 4)
-# hago 2       ( 3, 2)
-# no hago 3    ( 3, 5)
-# hago 4       ( 7, 1)
-# no hago 5    ( 7, 5)
-# hago 6       (12, 0)
+# 3
+# energias = [10, 2, 2]
+# entrenamientos = [
+#     1, # Descanso  ganancia: 0 energía: 10
+#     5, # Entreno   ganancia: 5 energía: 2
+#     4  # Entreno   ganancia: 7 energía: 2
+# ]
 
-def obtener_ganancia(energia_disponible, entrenamiento):
-    ganancia = (min(energia_disponible, entrenamiento))
-    energia_restante = energia_disponible - ganancia
-    return (ganancia, energia_restante)
+# 10 
+energias = [
+    63,
+    61,
+    49,
+    41,
+    40,
+    38,
+    23,
+    17,
+    13,
+    10
+]
+entrenamientos = [
+    36, # Entreno   ganancia:  36 energía: 61
+    2,  # Descanso  ganancia:  36 energía: 63
+    78, # Entreno   ganancia:  99 energía: 61
+    19, # Descanso  ganancia:  99 energía: 63
+    59, # Entreno   ganancia: 158 energía: 61
+    76, # Entreno   ganancia: 219 energía: 49
+    65, # Entreno   ganancia: 268 energía: 41
+    64, # Entreno   ganancia: 309 energía: 40
+    33, # Entreno   ganancia: 342 energía: 38
+    41  # Entreno   ganancia: 380 energía: 23
+]
 
-def mayor_ganancia(energia_inicial, entrenamientos):
-    # La ganancia inicial (minima) de cada entrenamiento es hacerlo por si solo
-    ganancias = [obtener_ganancia(energia_inicial, entrenamiento) for entrenamiento in entrenamientos]
-    for i in range(len(entrenamientos)):
-        # Casos bases, primer y segundo entrenamiento
-        if i == 0: 
-            # Nada que hacer, el mejor caso es su inicial
-            continue
-        if i == 1:
-            # El segundo entrenamiento no se suma a nada anterior
-            c1 = ganancias[i]
-            g = obtener_ganancia(ganancias[i-1][1], entrenamientos[i])
-            c2 = (ganancias[i-1][0]+g[0], g[1])
-            ganancias[i] = max(c1, c2)
-            continue
+def obtener_ganacia(entrenamiento, energia):
+    return min(energia, entrenamiento)
 
-        # Dos escenarios posibles
-        # c1: entrenar habiendo descansado el día anterior
-        c1 = (ganancias[i-2][0] + ganancias[i][0], ganancias[i][1])
-        # c2: entrenar no habiendo descansado el día anterior
-        g = obtener_ganancia(ganancias[i-1][1], entrenamientos[i])
-        c2 = (ganancias[i-1][0] + g[0], g[1])
-        ganancias[i] = max(c1, c2)
-    return max(ganancias)
+def obtener_mejor_del_dia(entrenamientos):
+    mejor = 0
+    for entrenamiento in entrenamientos:
+        if entrenamiento[0] > mejor:
+            mejor = entrenamiento[0]
+    return mejor
 
-print(mayor_ganancia(energia_inicial, entrenamientos))
+def mayor_ganancia(cant_dias, entrenamientos, energias):
+    mejor_caso_dia = [[]] * cant_dias
 
+    # el primer día es un caso base
+    mejor_caso_dia[0] = [[obtener_ganacia(entrenamientos[0], energias[0]), 1]]
+
+    # el segundo día tambien es un caso base (tal vez no sea necesario)
+    mejor_caso_dia[1] = [
+        [obtener_ganacia(entrenamientos[1], energias[0]), 1],
+        [mejor_caso_dia[0][0][0] + obtener_ganacia(entrenamientos[1], energias[1]), 2]
+    ]
+
+    for i in range(2, cant_dias):
+        casos_posibles = [
+            [
+                obtener_ganacia(entrenamientos[i], energias[0]) + obtener_mejor_del_dia(mejor_caso_dia[i-2]), 
+                1 # dias consecutivos entrenados
+            ],
+        ]
+        for caso_previo in mejor_caso_dia[i-1]:
+            ganancia_previa = caso_previo[0]
+            dias_consecutivos = caso_previo[1]
+            caso = [
+                    obtener_ganacia(entrenamientos[i], energias[dias_consecutivos]) + ganancia_previa,
+                    dias_consecutivos+1
+                    ]
+            casos_posibles.append(caso)
+
+        mejor_caso_dia[i] = casos_posibles
+
+    return max(mejor_caso_dia[-1])
+
+print(mayor_ganancia(len(entrenamientos), entrenamientos, energias))
