@@ -1,6 +1,6 @@
 import sys
 
-def calcular_ganancias(entrenamientos, energias):
+def maximizar_ganancias(entrenamientos, energias):
     ganancias = [0]
 
     for dia_actual in range(len(entrenamientos)):
@@ -14,7 +14,7 @@ def calcular_ganancias(entrenamientos, energias):
 def reconstruir_solucion(ganancias, entrenamientos, energias):
     dia_actual = len(entrenamientos)
     solucion = [True] * dia_actual
-    while (dia_descanso := ganancias.index(max(ganancias[:dia_actual]))) > 0:
+    while (dia_descanso := ganancias.index(max(ganancias[:dia_actual], default=0))) > 0:
         solucion[dia_descanso - 1] = False
         for i in range(dia_descanso, dia_actual):
             for j in range(dia_descanso):
@@ -37,7 +37,7 @@ def parse_input(file_h):
 
 def main():
     entrenamientos, energias = parse_input(sys.stdin)
-    ganancias = calcular_ganancias(entrenamientos, energias)
+    ganancias = maximizar_ganancias(entrenamientos, energias)
     print('Ganancia maxima:', max(ganancias))
     solucion = reconstruir_solucion(ganancias, entrenamientos, energias)
     mapping = {True: 'Entreno', False: 'Descanso'}
