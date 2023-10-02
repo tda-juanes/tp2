@@ -6,22 +6,21 @@ def calcular_ganancias(entrenamientos, energias):
     for dia_actual in range(len(entrenamientos)):
         ganancias.append(max(ganancias))
         for i in range(dia_actual + 1):
-            ganancias[i] = ganancias[i] + min(energias[dia_actual - i], entrenamientos[dia_actual])
+            ganancias[i] += min(energias[dia_actual - i], entrenamientos[dia_actual])
 
     return ganancias
 
 
 def reconstruir_solucion(ganancias, entrenamientos, energias):
-    dia_actual = len(entrenamientos) - 1
-    solucion = [True] * (dia_actual + 1)
-    while dia_actual > 0:
-        idx_max = ganancias.index(max(ganancias[:dia_actual]))
-        solucion[idx_max - 1] = False
-        for i in range(dia_actual, idx_max - 1, -1):
-            for j in range(idx_max - 1, -1, -1):
-                ganancias[i] -= min(entrenamientos[i], energias[i - j])
-        dia_actual = idx_max - 1
-    return reversed(solucion)
+    dia_actual = len(entrenamientos)
+    solucion = [True] * dia_actual
+    while (dia_descanso := ganancias.index(max(ganancias[:dia_actual]))) > 0:
+        solucion[dia_descanso - 1] = False
+        for i in range(dia_descanso, dia_actual):
+            for j in range(dia_descanso):
+                ganancias[j] -= min(entrenamientos[i], energias[i - j])
+        dia_actual = dia_descanso
+    return solucion
 
 
 def parse_input(file_h):
