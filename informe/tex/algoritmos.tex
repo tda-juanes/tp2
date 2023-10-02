@@ -1,0 +1,19 @@
+\subsection{Algoritmo}
+
+Para encontrar $\mathcal{G} \left( 0, n + 1 \right)$, proponemos un algoritmo
+por \textit{Programaci\'on Din\'amica} que calcula la ganancia para el d\'ia
+$k$ dado que los jugadores descansaron en cualquiera de los d\'ias anteriores.
+
+% TODO: explicar algoritmo
+
+\subsection{Implementaci\'on}
+
+\lstinputlisting[language=Python]{code/solution.py}
+
+La ecuaci\'on de recurrencia que corresponde a este algoritmo es:
+\begin{equation*}
+    \mathcal{T}(n) = \mathcal{T}\left(n - 1\right) + \mathcal{O}\left(n\right)
+\end{equation*}
+
+% TODO: justificar complejidad
+Esto es porque

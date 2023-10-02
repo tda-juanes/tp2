@@ -1,0 +1,62 @@
+\section{Introducci\'on}
+
+En el presente trabajo pr\'actico se realiza un analisis de un algoritmo por
+\textit{Programaci\'on Din\'amica} para resolver un problema de maximizaci\'on.
+
+\section{Consideraciones}
+
+Un cronograma de entrenamiento indica cuanto esfuerzo demanda el entrenamiento
+de cada d\'ia. Se puede calcular la ganancia de cada d\'ia como el m\'inimo
+entre el esfuerzo requerido por el entrenamiento para ese d\'ia $\left( e_i
+\right)$, y la eneg\'ia que tienen los jugadores en ese d\'ia $\left( j
+\right)$ o $0$ si descansan.
+
+La energ\'ia que tienen los jugadores en un d\'ia determinado depende de hace
+cuantos d\'ias descansaron por \'ultima vez y est\'a dada por la secuencia
+$\mathcal{S}$:
+
+\begin{equation*}
+    \mathcal{S} = s_1, s_2, ..., s_n
+\end{equation*}
+\begin{equation*}
+    \text{con } s_1 \ge s_2 \ge ... \ge s_n
+\end{equation*}
+
+\section{Problema}
+
+Dada la secuencia de energ\'ia disponible desde el \'ultimo descanso
+$\mathcal{S}$, y el esfuerzo/ganancia de cada d\'ia, determinar la m\'axima
+cantidad de ganancia que se puede obtener de los entrenamientos, considerando
+posibles descansos.
+
+\subsection{Ecuaci\'on de Recurrencia}
+
+Los jugadores comienzan descansados y sin ninguna ganancia:
+
+\begin{equation*}
+    \mathcal{G} \left( 0, 0 \right) = 0
+\end{equation*}
+
+Si eligen descansar en el d\'ia $k$, al d\'ia siguiente se renueva su
+energ\'ia, por lo que lo mejor ser\'a maximizar la ganancia del d\'ia anterior:
+
+\begin{equation*}
+    \mathcal{G} \left( 0, k \right) = \max_{0 \le i < k} \left( \mathcal{G} \left( i, k - 1 \right) \right)
+\end{equation*}
+
+Por otro lado, si no descansan la ganancia para ese d\'ia depende de su
+energ\'ia y de la ganancia del d\'ia anterior:
+
+\begin{equation*}
+    \mathcal{G} \left( i, k \right) = \mathcal{G} \left( i - 1, k - 1 \right) + \min \left( s_i, e_k \right)
+\end{equation*}
+
+Lo que nos deja con la siguiente ecuaci\'on de recurrencia:
+
+\begin{equation}
+    \begin{cases}
+        \mathcal{G} \left( 0, 0 \right) = 0\\
+        \mathcal{G} \left( 0, k \right) = \max_{0 \le i < k} \left( \mathcal{G} \left( i, k - 1 \right) \right)\\
+        \mathcal{G} \left( i, k \right) = \mathcal{G} \left( i - 1, k - 1 \right) + \min \left( s_i, e_k \right)\\
+    \end{cases}
+\end{equation}
