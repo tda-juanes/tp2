@@ -1,20 +1,27 @@
-def mayor_ganancia(cant_dias, entrenamientos, energias):
+import sys
+
+def mayor_ganancia(entrenamientos, energias):
     ganancias = [0]
 
-    for i in range(cant_dias):
+    for i in range(len(entrenamientos)):
+        ganancias.append(max(ganancias))
         for j in range(i):
-            ganancias.append(max(ganancias))
             ganancias[j] = ganancias[j] + min(energias[i - j], entrenamientos[i])
 
     return max(ganancias)
 
-def parsear_archivo(archivo):
-    with open(archivo) as f:
-        lineas = f.readlines()
-        cant_dias = int(lineas[0])
-        entrenamientos = [int(linea) for linea in lineas[1:cant_dias+1]]
-        energias = [int(linea) for linea in lineas[cant_dias+1:]]
-        return cant_dias, entrenamientos, energias
-    
-(cant_dias, entrenamientos, energias) = parsear_archivo("./test/5000.txt")
-print(mayor_ganancia(len(entrenamientos), entrenamientos, energias)[0])
+
+def parse_input(file_h):
+    try:
+        cant_lineas = int(file_h.readline())
+        input_lines = [int(line) for line in file_h]
+        entrenamientos = input_lines[:cant_lineas]
+        energias = input_lines[cant_lineas:]
+        assert cant_lineas == len(entrenamientos) == len(energias)
+        return entrenamientos, energias
+    except ValueError:
+        print('Invalid input: Line contents must be valid integers', file=sys.stderr)
+
+
+if __name__ == '__main__':
+    print(mayor_ganancia(*parse_input(sys.stdin)))
