@@ -1,10 +1,19 @@
 \subsection{Algoritmo}
 
-Para encontrar $\mathcal{G} \left( 0, n + 1 \right)$, proponemos un algoritmo
-por \textit{Programaci\'on Din\'amica} que calcula la ganancia para el d\'ia
-$k$ dado que los jugadores descansaron en cualquiera de los d\'ias anteriores.
+Para encontrar $\mathcal{G} \left( 0, n + 1 \right)$, proponemos el siguiente
+algoritmo por \textit{Programaci\'on Din\'amica}:
 
-% TODO: explicar algoritmo
+Para cada d\'ia, considerar la posibilidad de haber descansado por \'ultima
+vez en cualquiera de los d\'ias anteriores, y calcular la ganancia
+correspondiente. Adem\'as, considerar que se puede descansar en el mismo d\'ia,
+en cuyo caso la ganancia m\'axima del d\'ia anterior es la ganancia para ese
+d\'ia.
+
+De esta forma podemos calcular las posibles ganancias de cada d\'ia de
+entrenamiento utilizando \'unicamente las posibles ganancias del d\'ia
+anterior. Como pudieron haber descansado por \'ultima vez en cualquiera de los
+d\'ias anteriores, los cuales son a lo sumo $n$, la complejidad espacial de
+nuestro algoritmo es $\mathcal{O}(n)$.
 
 \subsection{Implementaci\'on}
 
@@ -15,5 +24,9 @@ La ecuaci\'on de recurrencia que corresponde a este algoritmo es:
     \mathcal{T}(n) = \mathcal{T}\left(n - 1\right) + \mathcal{O}\left(n\right)
 \end{equation*}
 
-% TODO: justificar complejidad
-Esto es porque
+Esto es porque en cada iteraci\'on calculamos el m\'aximo de un arreglo de
+tama\~no $n$ $\left( \mathcal{O}(n) \right)$, e iteramos por el mismo
+realizando operaciones de tiempo constante $\left( \mathcal{O}(n) \right)$.
+
+Aplicando en teorema maestro, o multiplicando por la cantidad de
+entrenamientos, nos queda que la complejidad es $\mathcal{O}(n^2)$.
