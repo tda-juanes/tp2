@@ -16,6 +16,7 @@ d\'ias anteriores, los cuales son a lo sumo $n$, la complejidad espacial de
 nuestro algoritmo es $\mathcal{O}(n)$.
 
 \subsection{Implementaci\'on}
+\label{sec:implementacion}
 
 \lstinputlisting[language=Python]{code/solution.py}
 
@@ -30,3 +31,29 @@ realizando operaciones de tiempo constante $\left( \mathcal{O}(n) \right)$.
 
 Aplicando en teorema maestro, o multiplicando por la cantidad de
 entrenamientos, nos queda que la complejidad es $\mathcal{O}(n^2)$.
+ 
+\subsection{Reconstrucci\'on}
+
+Para encontrar el camino que maximiza el esfuerzo alcanza con tener el estado final
+del arreglo de ganancias propuesto \hyperref[sec:implementacion]{anteriormente},
+ya que con este se pueden reconstruir todos los estados anteriores del mismo.
+Considerando un arreglo de ganancias para el día $n$ con un máximo en la
+posici\'on $k$ se da que:
+\begin{equation*}
+    ganancias[k] = \mathcal{G} ( 0, k + 1 ) + \sum_{i=1}^{n-k} \min (s_i, e_{k+i})
+\end{equation*}
+    Que es equivalente a decir que el camino cumple con haber descanzado el día
+$k$ y trabajado todos los días posteriores.\\
+
+    Con esto en mente, alcanza con restarle la sumatoria 
+$\sum_{i=1}^{n-k} \min (s_i, e_{k+i})$ al elemento en la posici\'on $k$ para
+recuperar el valor que ten\'ia en el d\'ia $k$.\\
+Generalizando: el valor en el \'indice $j$ para el d\'ia $k$, con $j \leq k$,
+puede recuperarse con:
+\begin{equation*}
+    ganancias[j] - \sum_{i=1}^{n-k} \min (s_{k+i-j}, e_{k+i})
+\end{equation*}
+
+    Una vez reconstruido el arreglo para el d\'ia $k$, y considerando la
+equaci\'on para $\mathcal{G} ( 0, k )$ \eqref{eq:g_{0k}}, tenemos que el problema
+se reduce a una versi\'on m\'as peque\~na de s\'i mismo. 

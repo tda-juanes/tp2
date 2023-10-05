@@ -40,9 +40,10 @@ Los jugadores comienzan descansados y sin ninguna ganancia:
 Si eligen descansar en el d\'ia $k$, al d\'ia siguiente se renueva su
 energ\'ia, por lo que lo mejor ser\'a maximizar la ganancia del d\'ia anterior:
 
-\begin{equation*}
+\begin{equation}
+\label{eq:g_{0k}}
     \mathcal{G} \left( 0, k \right) = \max_{0 \le i < k} \left( \mathcal{G} \left( i, k - 1 \right) \right)
-\end{equation*}
+\end{equation}
 
 Por otro lado, si no descansan la ganancia para ese d\'ia depende de su
 energ\'ia y de la ganancia del d\'ia anterior:
