@@ -1,6 +1,6 @@
 import sys
 import time
-from random import random
+from random import randint
 
 from main import maximizar_ganancias
 
@@ -17,9 +17,9 @@ n_k,time_taken_k
 '''
 def benchmark(rango):
     for cant_elementos in rango:
-        entrenamientos = [random() for _ in range(cant_elementos)]
-        energias = [random() for _ in range(cant_elementos)]
-        energias.sort()
+        entrenamientos = [randint(1,1000) for _ in range(cant_elementos)]
+        energias = [randint(1,1000) for _ in range(cant_elementos)]
+        energias.sort(reverse=True)
         timer_start = time.perf_counter()
         maximizar_ganancias(entrenamientos, energias)
         timer_end = time.perf_counter()
