@@ -7,7 +7,6 @@ def maximizar_ganancias(entrenamientos, energias):
         ganancias.append(max(ganancias))
         for i in range(dia_actual + 1):
             ganancias[i] += min(energias[dia_actual - i], entrenamientos[dia_actual])
-
     return ganancias
 
 
@@ -36,6 +35,10 @@ def parse_input(file_h):
 
 
 def main():
+    if sys.stdin.isatty():
+        print('Usage: python3 main.py < input.txt', file=sys.stderr)
+        sys.exit(1)
+
     entrenamientos, energias = parse_input(sys.stdin)
     ganancias = maximizar_ganancias(entrenamientos, energias)
     print('Ganancia maxima:', max(ganancias))

@@ -1,5 +1,5 @@
 import unittest
-from main import maximizar_ganancias, reconstruir_solucion
+from main import maximizar_ganancias, reconstruir_solucion, parse_input
 
 def solucion(entrenamientos, energias):
     ganancias = maximizar_ganancias(entrenamientos, energias)
@@ -32,6 +32,30 @@ class TestCronograma(unittest.TestCase):
         energias       = [90, 100, 90, 100, 90, 100, 90, 100, 90, 100]
         got = solucion(entrenamientos, energias)
         self.assertTrue(all(got))
+
+    def test_hundred(self):
+        file = open('./test/100.txt')
+        entrenamientos, energias = parse_input(file)
+        file.close()
+        expected = 5325
+        actual = max(maximizar_ganancias(entrenamientos, energias))
+        self.assertTrue(actual == expected)
+
+    def test_thousand(self):
+        file = open('./test/1000.txt')
+        entrenamientos, energias = parse_input(file)
+        file.close()
+        expected = 54021
+        actual = max(maximizar_ganancias(entrenamientos, energias))
+        self.assertTrue(actual == expected)
+
+    def test_five_thousand(self):
+        file = open('./test/5000.txt')
+        entrenamientos, energias = parse_input(file)
+        file.close()
+        expected = 279175
+        actual = max(maximizar_ganancias(entrenamientos, energias))
+        self.assertTrue(actual == expected)
 
     def test_reconstruir(self):
         entrenamientos = [36,  2, 78, 19, 59, 76, 65, 64, 33, 41]
