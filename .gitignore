@@ -1,2 +1,4 @@
 __pycache__/
 informe/main.*
+!informe/main.tex
+!informe/main.pdf

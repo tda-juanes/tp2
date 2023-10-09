@@ -1,8 +1,9 @@
 \section{Conclusiones}
 
-La soluci\'on propuesta plantea la utilización del día anterior para el calculo de un entrenamiento óptimo. 
-Como solo prescindimos del entrenamiento del d\'ia anterior para calcular nuestro d\'ia actual, la \textit{memoization} requerida es de espacio lineal.
+La Programaci\'on Din\'amica demostr\'o ser una t\'ecnica eficiente para resolver el problema de Scaloni,
+reduciendo a $\mathcal{O}(n^2)$ un problema que parec\'ia tener complejidad temporal exponencial.
 
-Al haber planteado un algoritmo de complejidad exponencial cuadratica, no podemos decir que la soluci\'on es veloz, pero sin embargo es la m\'as \'optima posible, el m\'etodo de reconstrucci\'on por su parte s\'i es r\'apido, ya que tiene complejidad lineal.
+No solo eso, sino que tambi\'en pudimos reconstruir la soluci\'on en $\mathcal{O}(n^2)$
+-por lo tanto no empeorando la complejidad del algor\'itmo- y todo esto manteniendo la complejidad espacial $\mathcal{O}(n)$.
 
 Destacamos que nuestro algorimo no considera la condicion inicial de $e_i >= e_{i+1}$, por lo que nuestro programa podria hayar soluciones para casos en los que no este dada esta restricci\'on.

@@ -77,7 +77,7 @@
 
 \renewcommand{\headrulewidth}{1pt}
 \renewcommand{\footrulewidth}{1pt}
-\rhead{\footnotesize \textsc {Trabajo pr\'actico 1\\ Teor\'ia de Algoritmos}} % Trabajo práctico
+\rhead{\footnotesize \textsc {Trabajo pr\'actico 2\\ Teor\'ia de Algoritmos}} % Trabajo práctico
 \lhead{\includegraphics[width=2.5cm]{logo}}
 \cfoot{\small \textsc {Página \thepage\ de \pageref*{LastPage}}}
 
@@ -104,7 +104,7 @@
 \\[1cm]
 	\textsc{\Large Teor\'ia de Algoritmos}\\           % Materia
 	\textsc{\small (75.29) Curso Buchwald - Genender}\\[0.4cm]    % Subtítulo materia
-	{ \huge \bfseries Trabajo Pr\'actico 1 \\ Algoritmos Greedy}\\[0.3cm]      % Título
+	{ \huge \bfseries Trabajo Pr\'actico 2 \\ Programaci\'on Din\'amica}\\[0.3cm]      % Título
 	\andreasline \\[0.2cm]
 	{\large \today  \\[0.4cm]}                          % Fecha
 	\begin{minipage}{0.4\textwidth}
