@@ -1,6 +1,6 @@
 # tp2
 
-# TP1 - Algoritmos Greedy
+# TP2 - Programación Dinámica
 
 ## Integrantes
 - [Juan Ignacio Díaz](https://github.com//listeriaceae) - 103488
